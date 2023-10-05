@@ -20,4 +20,4 @@ jobs:
       - name: Create deployment package
         run: zip -r function.zip index.js
       - name: Deploy to AWS Lambda
-        run: aws lambda update-function-code --function-name testing --zip-file fileb://function.zip
+        run: aws lambda update-function-code --function-name prod-MyLambdaFunction --zip-file fileb://function.zip
