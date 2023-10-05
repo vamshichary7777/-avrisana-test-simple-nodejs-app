@@ -1,4 +1,4 @@
-name: Deploy
+name: Deploy to AWS Lambda
 
 on:
   push:
@@ -6,31 +6,18 @@ on:
       - master
 
 jobs:
-  deploy_lambda:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '12'
-
-      - name: Install dependencies and build
-        run: |
-          npm install
-          npm install express request wiki-infobox-parser @zeit/ncc
-          npx ncc build index.js -o dist
-          zip -r deploy.zip ./dist/*
-
-      - name: Configure AWS Credentials
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-south-1
-
-      - name: Deploy Lambda Function
+          aws-region: us-east-1
+      - name: Deploy to AWS Lambda
         run: |
-          aws lambda update-function-code --function-name=prod-MyLambdaFunction --zip-file=fileb://deploy.zip
+          zip -r function.zip index.js
+          aws lambda update-function-code --function-name prod-MyLambdaFunction --zip-file fileb://function.zip
