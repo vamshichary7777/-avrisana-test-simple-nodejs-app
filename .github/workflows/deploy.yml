@@ -21,8 +21,8 @@ jobs:
         run: |
           npm install
           npm install express request wiki-infobox-parser @zeit/ncc
-          npx ncc build index.js
-          zip -r deploy.zip .ncc/dist/*
+          npx ncc build index.js --out-dir dist
+          zip -r deploy.zip ./dist/*
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -33,4 +33,4 @@ jobs:
 
       - name: Deploy Lambda Function
         run: |
-          aws lambda update-function-code --function-name=dev-MyLambdaFunction --zip-file=fileb://deploy.zip
+          aws lambda update-function-code --function-name=prod-MyLambdaFunction --zip-file=fileb://deploy.zip
