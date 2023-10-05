@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies and build
         run: |
           npm install
-          npm install express request wiki-infobox-parser # Install required packages
+          npm install express request wiki-infobox-parser @zeit/ncc
           npx ncc build index.js
           zip -r deploy.zip .ncc/dist/*
 
@@ -33,4 +33,4 @@ jobs:
 
       - name: Deploy Lambda Function
         run: |
-          aws lambda update-function-code --function-name=prod-MyLambdaFunction --zip-file=fileb://deploy.zip
+          aws lambda update-function-code --function-name=dev-MyLambdaFunction --zip-file=fileb://deploy.zip
