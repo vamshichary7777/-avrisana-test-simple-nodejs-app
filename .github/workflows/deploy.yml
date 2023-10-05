@@ -18,11 +18,12 @@ jobs:
           node-version: '12'
 
       - name: Install dependencies and build
-        run: |
-          npm install
-          npm install express request wiki-infobox-parser @zeit/ncc
-          npx ncc build index.js --out-dir dist
-          zip -r deploy.zip ./dist/*
+  run: |
+    npm install
+    npm install express request wiki-infobox-parser @zeit/ncc
+    npx ncc build index.js -o dist
+    zip -r deploy.zip ./dist/*
+
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
